@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trace Light</title>
+    <style>
+      :root {
+        --bg: #0b1020;
+        --panel-soft: rgba(255, 255, 255, 0.04);
+        --text: #edf3ff;
+        --muted: #b5c0d5;
+        --primary: #7c9cff;
+        --primary-strong: #9c7dff;
+        --accent: #5ee6c3;
+        --line: rgba(255, 255, 255, 0.09);
+        --shadow: 0 22px 56px rgba(0, 0, 0, 0.35);
+      }
+
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        font-family: Inter, "Segoe UI", sans-serif;
+        background: radial-gradient(circle at top left, rgba(124,156,255,.18), transparent 25%), radial-gradient(circle at bottom right, rgba(94,230,195,.18), transparent 20%), var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      a { color: inherit; text-decoration: none; }
+      .container { width: min(1100px, calc(100% - 32px)); margin: 0 auto; }
+      header { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(12px); background: rgba(11,16,32,.7); border-bottom: 1px solid var(--line); }
+      .nav { display: flex; align-items: center; justify-content: space-between; min-height: 72px; }
+      .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: .04em; }
+      .brand-mark { width: 12px; height: 12px; border-radius: 50%; background: linear-gradient(135deg,var(--primary),var(--accent)); box-shadow: 0 0 18px rgba(124,156,255,.8); }
+      .nav-links { display: flex; align-items: center; gap: 26px; color: var(--muted); font-size: .95rem; }
+      .nav-links a:hover { color: var(--text); }
+      .cta { display: inline-flex; align-items: center; justify-content: center; border: 1px solid transparent; border-radius: 999px; padding: .9rem 1.4rem; font-weight: 700; transition: 180ms ease; }
+      .cta.primary { background: linear-gradient(135deg,var(--primary),var(--primary-strong)); color: white; box-shadow: 0 18px 32px rgba(124,156,255,.25); }
+      .cta.primary:hover { transform: translateY(-1px); box-shadow: 0 22px 38px rgba(124,156,255,.32); }
+      .cta.secondary { border-color: var(--line); background: rgba(255,255,255,.02); color: var(--text); }
+      .hero { padding: 82px 0 60px; }
+      .hero-grid { display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: 28px; }
+      .eyebrow { display: inline-block; padding: .5rem .8rem; border: 1px solid rgba(124,156,255,.28); background: rgba(124,156,255,.08); color: #dfe8ff; border-radius: 999px; font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
+      h1 { font-size: clamp(2.8rem,5vw,5rem); line-height: 1.02; margin: 1rem 0; letter-spacing: -.06em; }
+      .gradient-text { background: linear-gradient(135deg,#dfe8ff 0%,var(--accent) 45%,var(--primary) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .subtext { max-width: 620px; color: var(--muted); font-size: 1.08rem; }
+      .hero-actions { display: flex; flex-wrap: wrap; gap: 16px; margin-top: 28px; }
+      .stats { display: flex; flex-wrap: wrap; gap: 28px; margin-top: 34px; }
+      .stat strong { display: block; font-size: 1.6rem; line-height: 1.2; }
+      .stat span { color: var(--muted); font-size: .92rem; }
+      .hero-panel { border: 1px solid var(--line); background: linear-gradient(180deg,rgba(18,27,45,.96),rgba(10,15,27,.9)); border-radius: 28px; padding: 22px; box-shadow: var(--shadow); }
+      .window { background: rgba(255,255,255,.03); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+      .window-bar { display: flex; align-items: center; gap: 8px; padding: .8rem 1rem; border-bottom: 1px solid var(--line); background: rgba(255,255,255,.02); }
+      .dot { width: 11px; height: 11px; border-radius: 50%; }
+      .dot.red { background: #ff6b6b; } .dot.yellow { background: #f8c65d; } .dot.green { background: #4ad99d; }
+      .window-body { padding: 1.3rem; }
+      .code-block { margin: 0; font-family: "SFMono-Regular",Consolas,monospace; color: #dfe9ff; font-size: .97rem; line-height: 1.75; }
+      .code-block .purple { color: #c4aeff; } .code-block .green { color: #7fe3c7; } .code-block .blue { color: #7db7ff; }
+      section { padding: 30px 0 80px; }
+      .features { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; }
+      .card { background: var(--panel-soft); border: 1px solid var(--line); border-radius: 22px; padding: 1.5rem; }
+      .card-icon { width: 48px; height: 48px; display: grid; place-items: center; border-radius: 14px; background: linear-gradient(135deg,rgba(124,156,255,.18),rgba(94,230,195,.12)); border: 1px solid rgba(124,156,255,.22); font-size: 1.3rem; margin-bottom: 1rem; }
+      .card h3 { margin: 0 0 .5rem; font-size: 1.2rem; }
+      .card p { color: var(--muted); margin: 0; }
+      .callout { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; padding: 2rem 2.2rem; background: linear-gradient(135deg,rgba(124,156,255,.14),rgba(94,230,195,.08)); border: 1px solid rgba(124,156,255,.18); border-radius: 26px; margin-top: 40px; }
+      .callout h2 { margin: 0 0 .2rem; font-size: clamp(1.6rem,2.5vw,2.3rem); }
+      .callout p { margin: 0; color: var(--muted); }
+      footer { padding: 18px 0 48px; color: var(--muted); text-align: center; }
+      @media (max-width: 820px) {
+        .nav-links { display: none; }
+        .hero-grid, .features, .callout { grid-template-columns: 1fr; }
+        .hero { padding-top: 56px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="container nav">
+        <a href="#" class="brand" aria-label="Trace Light home"><span class="brand-mark"></span><span>TRACE LIGHT</span></a>
+        <nav class="nav-links" aria-label="Main navigation"><a href="#features">Features</a><a href="#about">About</a><a href="#contact">Contact</a></nav>
+        <a href="#contact" class="cta primary">Launch now</a>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">Built for momentum</span>
+            <h1>Turn tiny ideas into <span class="gradient-text">big impact.</span></h1>
+            <p class="subtext">Trace Light is a sleek starting point for a product, launch page, or personal brand. Clean structure, strong presentation, and a modern visual language make it easy to stand out.</p>
+            <div class="hero-actions"><a href="#features" class="cta primary">Explore features</a><a href="#about" class="cta secondary">Learn more</a></div>
+            <div class="stats" aria-label="Website stats">
+              <div class="stat"><strong>24/7</strong><span>Always ready</span></div>
+              <div class="stat"><strong>3x</strong><span>Faster setup</span></div>
+              <div class="stat"><strong>100%</strong><span>Built to impress</span></div>
+            </div>
+          </div>
+          <div class="hero-panel" aria-label="Preview panel">
+            <div class="window"><div class="window-bar"><span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span></div>
+              <div class="window-body"><pre class="code-block"><span class="purple">const</span> product = {
+  <span class="blue">name</span>: <span class="green">"Trace Light"</span>,
+  <span class="blue">goal</span>: <span class="green">"clarity + speed"</span>,
+  <span class="blue">impact</span>: <span class="green">"build momentum"</span>
+};</pre></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="features"><div class="container">
+        <div class="features">
+          <article class="card"><div class="card-icon">⚡</div><h3>Fast start</h3><p>Launch quickly with a polished structure that feels premium from the first scroll.</p></article>
+          <article class="card"><div class="card-icon">🎯</div><h3>Clear focus</h3><p>Keep the message direct so visitors instantly understand your value proposition.</p></article>
+          <article class="card"><div class="card-icon">✨</div><h3>Modern look</h3><p>Use gradient, contrast, and spacing to create a design that feels current and refined.</p></article>
+        </div>
+        <div class="callout" id="about"><div><h2>Ready to make your first impression count?</h2><p>Simple design, stronger branding, better conversion. Everything your page needs.</p></div><a href="#contact" class="cta primary">Start building</a></div>
+      </div></section>
+    </main>
+    <footer id="contact"><div class="container">© 2026 Trace Light — designed to stand out.</div></footer>
+  </body>
+</html>
